@@ -1,16 +1,14 @@
-name: 🌤 Kyiv Weather Bot
+name: 🌤 Kyiv Weather Broadcast
 
 on:
   schedule:
-    # Кожні 3 години (00:00, 03:00, 06:00, 09:00, 12:00, 15:00, 18:00, 21:00 UTC)
+    # Кожні 3 години
     - cron: "0 */3 * * *"
-
-  # Дозволяє запустити вручну з GitHub UI (для тестування)
   workflow_dispatch:
 
 jobs:
-  send-weather:
-    name: Відправити прогноз погоди
+  broadcast:
+    name: Розіслати прогноз всім підписникам
     runs-on: ubuntu-latest
     timeout-minutes: 5
 
@@ -26,9 +24,10 @@ jobs:
       - name: 📦 Встановити залежності
         run: pip install requests
 
-      - name: 🌤 Запустити Weather Bot
+      - name: 📡 Розіслати погоду підписникам
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           OPENWEATHER_API_KEY: ${{ secrets.OPENWEATHER_API_KEY }}
-        run: python weather_bot.py
+          GITHUB_TOKEN: ${{ secrets.GIST_GITHUB_TOKEN }}
+          GIST_ID: ${{ secrets.GIST_ID }}
+        run: python weather_broadcast.py
