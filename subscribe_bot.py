@@ -1,9 +1,3 @@
-"""
-subscribe_bot.py — постійно запущений бот (polling)
-Слухає /start та /stop, зберігає підписників у GitHub Gist
-Запускається окремо (наприклад, на Railway/Render безкоштовно)
-"""
-
 import os
 import json
 import requests
@@ -48,14 +42,14 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         subscribers.append(chat_id)
         save_subscribers(subscribers)
         await update.message.reply_text(
-            "✅ Ти підписаний на прогноз погоди для Києва!\n\n"
-            "🕐 Я надсилатиму оновлення кожні 3 години.\n"
-            "Щоб відписатись — надішли /stop"
+            "✅ Вы подписаны на прогноз погоды для Киева!\n\n"
+            "🕐 Буду отправлять обновления каждые 3 часа.\n"
+            "Чтобы отписаться — отправьте /stop"
         )
     else:
         await update.message.reply_text(
-            "👍 Ти вже підписаний!\n"
-            "Щоб відписатись — надішли /stop"
+            "👍 Вы уже подписаны!\n"
+            "Чтобы отписаться — отправьте /stop"
         )
 
 
@@ -66,9 +60,9 @@ async def stop(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if chat_id in subscribers:
         subscribers.remove(chat_id)
         save_subscribers(subscribers)
-        await update.message.reply_text("❌ Ти відписаний від прогнозу погоди.")
+        await update.message.reply_text("❌ Вы отписаны от прогноза погоды.")
     else:
-        await update.message.reply_text("Ти і так не підписаний. Надішли /start щоб підписатись.")
+        await update.message.reply_text("Вы и так не подписаны. Отправьте /start чтобы подписаться.")
 
 
 def main():
